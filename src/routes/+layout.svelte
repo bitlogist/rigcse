@@ -1,5 +1,6 @@
 <script lang="ts">
   import '../app.postcss'
+  import { goto } from '$app/navigation'
   import { AppShell } from '@skeletonlabs/skeleton'
   import { AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton'
   import Icon from '$lib/components/Icon.svelte'
@@ -10,9 +11,25 @@
       icon: 'home',
       url: '/',
     },
+    {
+      title: 'Papers',
+      icon: 'article',
+      url: '/papers',
+    },
+    {
+      title: 'Tools',
+      icon: 'construction',
+      url: '/tools',
+    },
   ]
 
   let currentTile = '/'
+
+  function onClick(url: string) {
+    currentTile = url
+    console.log(currentTile)
+    goto(currentTile)
+  }
 </script>
 
 <AppShell>
@@ -22,7 +39,7 @@
         <AppRailAnchor href="/" ><Icon name="menu"></Icon></AppRailAnchor>
       </svelte:fragment>
       {#each tiles as tile,i}
-        <AppRailTile bind:group={currentTile} name={tile.title} value={tile.url} title={tile.title}>
+        <AppRailTile bind:group={currentTile} name={tile.title} value={tile.url} title={tile.title} on:click={e => onClick(tile.url)}>
           <svelte:fragment slot="lead">
             <Icon name={tile.icon}></Icon>
           </svelte:fragment>
