@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 // inclusive bounds for paper year
-const START_YEAR = 19
+const START_YEAR = 20
 const END_YEAR = 22
 
 const codes = {
@@ -31,10 +31,11 @@ async function download(subject, year, season, document, paper, variant) {
     const response = await fetch(url.replaceAll(' ', '%20'))
     const responseType = response.headers.get('content-type')
     if (responseType === 'application/pdf') {
-      const data = await response.text()
+      const arrayBuffer = await response.arrayBuffer()
+      const buffer = Buffer.from(arrayBuffer)
       if (!fs.existsSync(`static/papers/${subject}`)) fs.mkdirSync(`static/papers/${subject}`)
       if (!fs.existsSync(`static/papers/${subject}/20${year}`)) fs.mkdirSync(`static/papers/${subject}/20${year}`)
-      fs.writeFileSync(`static/papers/${subject}/20${year}/${paperCode}.pdf`, data, 'binary')
+      fs.writeFileSync(`static/papers/${subject}/20${year}/${paperCode}.pdf`, buffer)
     }
   } catch (e) {
     console.log(e)
