@@ -4,6 +4,34 @@
 @tailwind variants;
 html, body { @apply h-full overflow-hidden; }
 code { font-family: 'Google Sans Mono' !important; };
+a.link {
+  position: relative;
+  color: rgb(var(--color-primary-500));
+  cursor: pointer;
+  transition-duration: 0.25s;
+}
+a.link:hover {
+  opacity: 0.75;
+}
+a.link:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  width: 0;
+  bottom: 0;
+  background: rgb(var(--color-primary-500));
+  height: 2px;
+  border-radius: 1px;
+  transition-property: width;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+}
+a.link:hover:after {
+  left: 0;
+  right: auto;
+  width: 100%;
+}
 .page {
   @apply p-4 md:p-10;
 }

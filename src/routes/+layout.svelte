@@ -4,6 +4,7 @@
   import { AppShell } from '@skeletonlabs/skeleton'
   import { AppRail, AppRailTile, AppRailAnchor } from '@skeletonlabs/skeleton'
   import Icon from '$lib/components/Icon.svelte'
+  import { page } from '$app/stores'
 
   const tiles = [
     {
@@ -23,7 +24,7 @@
     },
   ]
 
-  let currentTile = '/'
+  let currentTile = $page.url.pathname
 
   function onClick(url: string) {
     currentTile = url
