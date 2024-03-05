@@ -1,8 +1,8 @@
 <script lang="ts">
-  export let id: string
+  //
 </script>
 
-<h1 class="h1 space-y-4" {id}>
+<h1 class="h1 space-y-4">
   <slot/>
 </h1>
 <hr>

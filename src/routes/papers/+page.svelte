@@ -9,8 +9,8 @@
 </script>
 
 <Layout>
-  <Heading id="past-papers">Past Papers</Heading>
-  <h2 class="h2" id="format">Format</h2>
+  <Heading>Past Papers</Heading>
+  <h2 class="h2">Format</h2>
   <p>Cambridge past papers follow a <em>mostly</em> consistent naming convention. For example, we can break down the paper <code class="code">0580_s22_qp_23</code> into 6 parts.</p>
   <ul class="list-disc pl-7">
     <li>
