@@ -1,19 +1,19 @@
 import fs from 'fs'
 
 // inclusive bounds for paper year
-const START_YEAR = 20
-const END_YEAR = 22
+const START_YEAR = 23
+const END_YEAR = 23
 
 const codes = {
   '0452': 'Accounting',
   '0455': 'Economics',
-  '0478': 'Computer Science',
-  '0500': 'English - First Language',
+  '0478': 'Computer-Science',
+  '0500': 'English-First-Language',
   '0580': 'Mathematics',
   '0610': 'Biology',
   '0620': 'Chemistry',
   '0625': 'Physics',
-  '0654': 'Sciences - Co-ordinated (Double)',
+  '0654': 'Sciences-Co-ordinated-Double',
 }
 
 const seasons = {
@@ -22,11 +22,17 @@ const seasons = {
   'w': [1, 2, 3],
 }
 
+const months = {
+  'm': 'March',
+  's': 'May-June',
+  'w': 'Oct-Nov',
+}
+
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
 async function download(subject, year, season, document, paper, variant) {
   const paperCode = `${subject}_${season}${year}_${document}_${paper}${variant}`
-  const url = `https://papers.gceguide.com/Cambridge IGCSE/${codes[subject]} (${subject})/20${year}/${paperCode}.pdf`
+  const url = `https://pastpapers.co/cie/IGCSE/${codes[subject]}-${subject}/20${year}-${months[season]}/${paperCode}.pdf`
   try {
     const response = await fetch(url.replaceAll(' ', '%20'))
     const responseType = response.headers.get('content-type')
@@ -36,6 +42,8 @@ async function download(subject, year, season, document, paper, variant) {
       if (!fs.existsSync(`static/papers/${subject}`)) fs.mkdirSync(`static/papers/${subject}`)
       if (!fs.existsSync(`static/papers/${subject}/20${year}`)) fs.mkdirSync(`static/papers/${subject}/20${year}`)
       fs.writeFileSync(`static/papers/${subject}/20${year}/${paperCode}.pdf`, buffer)
+    } else {
+      throw new Error(`${paperCode} was not a PDF!`)
     }
   } catch (e) {
     console.log(e)
@@ -44,7 +52,7 @@ async function download(subject, year, season, document, paper, variant) {
 }
 
 async function downloadAllPapers() {
-  for (const subject of Object.keys(codes)) {
+  for (const subject of ['0654']) {
     for (let year = START_YEAR; year <= END_YEAR; year++) {
       Object.entries(seasons).forEach(([season, variants]) => {
         variants.forEach(variant => {
