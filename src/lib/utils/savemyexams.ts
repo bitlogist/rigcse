@@ -6,12 +6,11 @@ function parseQuestion(page: SaveMyExamsData['props']['pageProps']['pages'][numb
   const problem = page[0].problem[0].body
   const solution = page[0].solution[0].body
   const correctIndex = page[0].correctChoice
-  let options: [string, string, string, string] = choices
-  choices.forEach(choice => {
+  let options: [string, string, string, string] = choices.map(choice => {
     const x = page[0][`choice${choice}`]
     const option = x && x.length ? x[0].body : choice
-    options.push(option)
-  })
+    return option
+  }) as [string, string, string, string]
   return {
     problem,
     options,
