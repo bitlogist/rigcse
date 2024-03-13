@@ -24,7 +24,7 @@
     },
   ]
 
-  let currentTile = $page.url.pathname
+  let currentTile = '/' + $page.url.pathname.split('/')[1]
 
   function onClick(url: string) {
     currentTile = url
