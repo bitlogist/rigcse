@@ -38,12 +38,3 @@
   <p>Click on the drop down bars to select your subject, year, and paper.</p>
   <RecursiveTreeView nodes={createTreeView(pathTree)}/>
 </Layout>
-
-<style>
-  a.link {
-    position: relative;
-    color: rgb(var(--color-primary-500));
-    cursor: pointer;
-    transition-duration: 0.25s;
-  }
-</style>

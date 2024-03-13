@@ -4,7 +4,7 @@ const choices: ['A', 'B', 'C', 'D'] = ['A', 'B', 'C', 'D']
 
 function parseQuestion(page: SaveMyExamsData['props']['pageProps']['pages'][number]) {
   const problem = page[0].problem[0].body
-  const solution = page[0].solution[0].body
+  const solution = page[0].solution[0].body.replaceAll(/color:[#A-z0-9]+;?/g, '')
   const correctIndex = page[0].correctChoice
   let options: [string, string, string, string] = choices.map(choice => {
     const x = page[0][`choice${choice}`]
