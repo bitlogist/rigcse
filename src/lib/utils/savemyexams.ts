@@ -2,6 +2,17 @@ import type { SaveMyExamsData } from './formats'
 
 const choices: ['A', 'B', 'C', 'D'] = ['A', 'B', 'C', 'D']
 
+export async function parseSitemap() {
+  const urls: string[] = []
+  const response = await fetch('https://savemyexams.com/sitemap.xml')
+  const matches = [...(await response.text()).matchAll(/(?<=<loc>)[A-z0-9_/.:-]+(easy|medium|hard)\/(?=<\/loc>)/g)]
+  matches.forEach(match => {
+    const text = match[0]
+    if (text.includes('igcse')) urls.push(match[0])
+  })
+  return urls
+}
+
 function parseQuestion(page: SaveMyExamsData['props']['pageProps']['pages'][number]) {
   const problem = page[0].problem[0].body.replaceAll(/<span style="[#A-z0-9:;-]+">✔<\/span>/g, '<span class="material-symbols-rounded">check</span>').replaceAll(/<span style="[#A-z0-9:;-]+">(✘|X)<\/span>/g, '<span class="material-symbols-rounded">close</span>')
   const solution = page[0].solution[0].body.replaceAll(/color:[#A-z0-9]+;?/g, '')
@@ -20,6 +31,7 @@ function parseQuestion(page: SaveMyExamsData['props']['pageProps']['pages'][numb
 }
 
 export async function fetchQuestions(url: string) {
+  if (!url.startsWith('https://')) return []
   const response = await fetch(url)
   const text = await response.text()
   const doc = (new DOMParser()).parseFromString(text, 'text/html')
