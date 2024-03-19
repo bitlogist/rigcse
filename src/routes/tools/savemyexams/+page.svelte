@@ -12,7 +12,7 @@
     options = (await parseSitemap()).map(url => {
       return {
         label: url,
-        keywords: url,
+        keywords: url.substring('https://www.savemyexams.com/'.length).split(/[\/-]/g).filter(x => x.length).join(','),
         value: url,
       }
     })
@@ -39,10 +39,12 @@
         <li>
           <h2 class="h2 mt-4">{i + 1}</h2>
           <div class="bg-white text-black rounded p-4 my-4">{@html question.problem}</div>
-          {#each question.options as option}
-            <span>{@html option}</span>
-          {/each}
-          <div class="solution">{@html question.solution}</div>
+          <ol class="pl-8">
+            {#each question.options as option}
+              <li>{@html option}</li>
+            {/each}
+          </ol>
+          <div class="solution my-4">{@html question.solution}</div>
         </li>
       {/each}
     </ul>
@@ -52,5 +54,9 @@
 <style>
   .solution {
     color: white;
+  }
+
+  ol {
+    list-style-type: upper-alpha;
   }
 </style>
