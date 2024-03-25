@@ -16,7 +16,6 @@
         value: url,
       }
     })
-    console.log(options)
   })
   
   function onSelection(event: CustomEvent<AutocompleteOption<string>>): void {

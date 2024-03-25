@@ -1,3 +1,4 @@
+// TODO: update format with new JSON
 export type SaveMyExamsData = {
   "props": {
     "pageProps": {
