@@ -22,6 +22,11 @@
       icon: 'construction',
       url: '/tools',
     },
+    {
+      title: 'Resources',
+      icon: 'book',
+      url: '/resources',
+    },
   ]
 
   let currentTile = '/' + $page.url.pathname.split('/')[1]
