@@ -15,11 +15,12 @@ export async function parseSitemap() {
 }
 
 function parseQuestion(page: any['props']['pageProps']['posts'][number]['pages'][number]) {
-  const problem = page[0].problem[0].body.replaceAll(/<span style="[#A-z0-9:;-]+">✔<\/span>/g, '<span class="material-symbols-rounded">check</span>').replaceAll(/<span style="[#A-z0-9:;-]+">(✘|X)<\/span>/g, '<span class="material-symbols-rounded">close</span>')
-  const solution = page[0].solution[0].body.replaceAll(/color:[#A-z0-9]+;?/g, '')
-  const correctIndex = page[0].correctChoice
+  const p = page
+  const problem = p.problem[0].body.replaceAll(/<span style="[#A-z0-9:;-]+">✔<\/span>/g, '<span class="material-symbols-rounded">check</span>').replaceAll(/<span style="[#A-z0-9:;-]+">(✘|X)<\/span>/g, '<span class="material-symbols-rounded">close</span>')
+  const solution = p.solution[0].body.replaceAll(/color:[#A-z0-9]+;?/g, '')
+  const correctIndex = p.correctChoice
   let options: [string, string, string, string] = choices.map(choice => {
-    const x = page[0][`choice${choice}`]
+    const x = p[`choice${choice}`]
     const option = x && x.length ? x[0].body : choice
     return option
   }) as [string, string, string, string]
@@ -38,7 +39,7 @@ export async function fetchQuestions(url: string) {
   const doc = (new DOMParser()).parseFromString(text, 'text/html')
   const json: any = JSON.parse(doc.getElementById('__NEXT_DATA__')?.innerHTML as string) // using any type because sme changed their JSON structure
   let questions: any[] = []
-  const data: Record<string, any>[] = json.props.pageProps.posts.map((post: any) => post.pages.map((page: any) => parseQuestion(page)))
-  data.forEach(x => questions = questions.concat(x))
+  const data: Record<string, any>[][] = json.props.pageProps.posts.map((post: any) => post.pages.map((page: any[]) => page.map(p => parseQuestion(p))))
+  data.forEach(x => questions = questions.concat(...x))
   return questions
 }
